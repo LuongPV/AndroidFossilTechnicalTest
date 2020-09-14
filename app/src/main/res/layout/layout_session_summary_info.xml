@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/size_16">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDistance"
+        style="@style/TextSession"
+        android:text="@string/txt_distance_holder" />
+
+    <View style="@style/HorizontalWeight" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSpeed"
+        style="@style/TextSession"
+        android:text="@string/txt_speed_holder" />
+
+    <View style="@style/HorizontalWeight" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTime"
+        style="@style/TextSession"
+        android:text="@string/txt_time_holder" />
+
+</LinearLayout>

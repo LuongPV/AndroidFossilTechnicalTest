@@ -5,7 +5,7 @@ This project is for **Test Only**.
 Clone this repository and import into **Android Studio**
 
 ``` bash
-git clone https://github.com/LuongPV/AndroidFossilTechnicalTest.git
+git clone https://github.com/LuongPV/AndroidTechnical.git
 ```
 
 ## Configuration

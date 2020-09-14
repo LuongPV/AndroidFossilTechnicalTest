@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">TrackMe</string>
     <string name="title_activity_maps">Map</string>
+    <string name="txt_distance">%.2f km\nDistance</string>
+    <string name="txt_distance_holder">-- km\nDistance</string>
+    <string name="txt_speed">%.2f km/h\nSpeed</string>
+    <string name="txt_speed_holder">-- km/h\nSpeed</string>
+    <string name="txt_avg_speed">%.2f km/h\nAvg. Speed</string>
+    <string name="txt_avg_speed_holder">-- km/h\nAvg. Speed</string>
+    <string name="txt_time_holder">00:00:00</string>
+    <string name="msg_permission_denied">If you reject permission,you can not use this service. Please turn on permissions at [Setting] > [Permission]</string>
+    <string name="tit_update_notification">Location Update</string>
+    <string name="txt_update_notification">App is using location service to get location…</string>
+    <string name="txt_marker_departure">Your departure location</string>
+    <string name="txt_current_location">Your current location</string>
+    <string name="msg_loading">Loading</string>
 </resources>
