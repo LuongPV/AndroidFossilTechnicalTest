@@ -2,4 +2,10 @@
 <resources>
     <dimen name="height_session_map_item">300dp</dimen>
     <dimen name="size_16">16dp</dimen>
+    <!-- History -->
+    <dimen name="margin_bot_history">32dp</dimen>
+
+    <!-- Record -->
+    <dimen name="margin_bot_record_map">64dp</dimen>
+    <dimen name="margin_bot_record_buttons">16dp</dimen>
 </resources>

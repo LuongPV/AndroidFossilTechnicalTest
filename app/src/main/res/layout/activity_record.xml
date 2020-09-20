@@ -10,7 +10,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="@dimen/margin_bot_record_map"
         app:layout_constraintBottom_toTopOf="@id/llInfo"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/flButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/margin_bot_record_buttons"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible" />
