@@ -45,12 +45,20 @@ class LocationUpdateService : Service(), KodeinAware {
                     return START_NOT_STICKY
                 }
                 Timber.d("onStartCommand ACTION_START_SERVICE")
+                val dummyLocationData = dummyLocationData()
                 initLocationUpdateForegroundService()
                 locationUpdateHelper.startLocationUpdate {
+                    if (count >= dummyLocationData.size - 1) {
+                        Timber.d("Out of the list already")
+                        return@startLocationUpdate
+                    }
                     Timber.d("Location received = $it")
                     LocalBroadcastManager.getInstance(applicationContext)
                         .sendBroadcast(Intent(ACTION_BROADCAST).apply {
-                            putExtra(EXTRA_LOCATION, it)
+                            putExtra(EXTRA_LOCATION, it.apply {
+                                latitude = dummyLocationData[count].first
+                                longitude = dummyLocationData[count].second
+                            })
                         })
                     count++
                 }
@@ -65,6 +73,22 @@ class LocationUpdateService : Service(), KodeinAware {
         }
         return START_NOT_STICKY
     }
+
+    private fun dummyLocationData(): List<Pair<Double, Double>> = listOf(
+        Pair(10.801319, 106.683513),
+        Pair(10.800364, 106.684560),
+        Pair(10.799938, 106.686669),
+        Pair(10.801290, 106.687372),
+        Pair(10.800614, 106.688583),
+        Pair(10.799953, 106.688703),
+        Pair(10.799600, 106.689361),
+        Pair(10.799556, 106.689914),
+        Pair(10.799747, 106.690677),
+        Pair(10.799305, 106.691513),
+        Pair(10.798725, 106.692157),
+        Pair(10.797661, 106.691503),
+        Pair(10.797229, 106.693220)
+    )
 
     private fun initLocationUpdateForegroundService() {
         val notificationIntent = packageManager
