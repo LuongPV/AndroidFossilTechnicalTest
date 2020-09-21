@@ -23,6 +23,8 @@ class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
 
     var locationListener: DataListener<Location>? = null
 
+    private var isLocationUpdating: Boolean = false
+
     init {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         locationCallback = object : LocationCallback() {
@@ -39,6 +41,12 @@ class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
             fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+    }
+
+    override fun isLocationUpdating() = isLocationUpdating
+
+    override fun setLocationUpdating(isLocationUpdating: Boolean) {
+        this.isLocationUpdating = isLocationUpdating
     }
 
     override fun startLocationUpdate(locationListener: DataListener<Location>) {

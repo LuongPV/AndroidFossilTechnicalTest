@@ -37,11 +37,13 @@ class LocationUpdateService : Service(), KodeinAware {
 
     private val locationUpdateHelper: LocationUpdateHelper by instance()
 
-    private val appPreference: AppPreference by instance()
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        var count = 0
         when (intent.getStringExtra(EXTRA_ACTION)) {
             ACTION_START_SERVICE -> {
+                if (locationUpdateHelper.isLocationUpdating()) {
+                    return START_NOT_STICKY
+                }
                 Timber.d("onStartCommand ACTION_START_SERVICE")
                 initLocationUpdateForegroundService()
                 locationUpdateHelper.startLocationUpdate {
@@ -50,13 +52,14 @@ class LocationUpdateService : Service(), KodeinAware {
                         .sendBroadcast(Intent(ACTION_BROADCAST).apply {
                             putExtra(EXTRA_LOCATION, it)
                         })
+                    count++
                 }
-                appPreference.setUpdatingLocation(true)
+                locationUpdateHelper.setLocationUpdating(true)
             }
             ACTION_STOP_SERVICE -> {
                 Timber.d("onStartCommand ACTION_STOP_SERVICE")
                 locationUpdateHelper.stopLocationUpdate()
-                appPreference.setUpdatingLocation(false)
+                locationUpdateHelper.setLocationUpdating(false)
                 stopSelf()
             }
         }
