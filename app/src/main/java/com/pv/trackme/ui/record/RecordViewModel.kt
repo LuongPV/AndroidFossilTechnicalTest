@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pv.trackme.constant.CommonConstant
-import com.pv.trackme.data.db.AppDatabase
-import com.pv.trackme.data.db.Session
-import com.pv.trackme.domain.LocationHelper
+import com.pv.trackme.data.model.Session
+import com.pv.trackme.data.repository.SessionRepository
+import com.pv.trackme.location.LocationHelper
 import com.pv.trackme.util.DateTimeUtil
 import com.pv.trackme.util.ImageUtil
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import timber.log.Timber
 import java.util.*
 
 class RecordViewModel(
-    private val database: AppDatabase,
+    private val sessionRepository: SessionRepository,
     private val handler: Handler,
     private val locationHelper: LocationHelper
 ) : ViewModel() {
@@ -89,8 +89,8 @@ class RecordViewModel(
                 mapSnapshotBitmap
             ) ?: return@launch
             Timber.d("Done saving map snapshot image to storage location = $imagePath")
-            val sessionDAO = database.getSessionDAO()
-            sessionDAO.insert(
+            sessionRepository.saveLocation()
+            sessionRepository.insert(
                 Session(
                     imagePath,
                     locationHelper.getTotalDistance(),

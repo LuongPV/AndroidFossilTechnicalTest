@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface SessionDAO {
+internal interface SessionDAO {
 
     @Query("SELECT * FROM session ORDER BY uid DESC LIMIT :rowIndex, :numberOfItems")
     suspend fun getSessions(rowIndex: Int, numberOfItems: Int): List<Session>

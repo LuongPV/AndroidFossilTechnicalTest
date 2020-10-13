@@ -1,6 +1,6 @@
 package com.pv.trackme.data.preference
 
-interface AppPreference {
+internal interface AppPreference {
 
     fun isUpdatingLocation(): Boolean
 

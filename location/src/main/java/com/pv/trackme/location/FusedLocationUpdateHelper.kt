@@ -1,13 +1,12 @@
-package com.pv.trackme.domain
+package com.pv.trackme.location
 
 import android.content.Context
 import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.*
-import com.pv.trackme.util.DataListener
 import timber.log.Timber
 
-class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
+internal class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
 
     companion object {
         private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000

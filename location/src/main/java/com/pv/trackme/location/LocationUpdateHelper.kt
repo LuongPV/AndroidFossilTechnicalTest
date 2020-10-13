@@ -1,7 +1,6 @@
-package com.pv.trackme.domain
+package com.pv.trackme.location
 
 import android.location.Location
-import com.pv.trackme.util.DataListener
 
 interface LocationUpdateHelper {
 

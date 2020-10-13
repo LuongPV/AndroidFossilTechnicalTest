@@ -1,2 +1,4 @@
+include ':location'
+include ':data'
 include ':app'
 rootProject.name = "TrackMe"

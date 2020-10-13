@@ -2,7 +2,7 @@ package com.pv.trackme.data.preference
 
 import android.content.Context
 
-class AppPreferenceImpl(private val context: Context) : AppPreference {
+internal class AppPreferenceImpl(private val context: Context) : AppPreference {
     companion object {
         const val PREF_FILE_NAME = "AppPref"
         const val KEY_REQUESTING_LOCATION_UPDATE = "KEY_REQUESTING_LOCATION_UPDATE"

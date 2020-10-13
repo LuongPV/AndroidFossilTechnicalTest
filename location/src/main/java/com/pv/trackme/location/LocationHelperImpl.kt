@@ -1,12 +1,9 @@
-package com.pv.trackme.domain
+package com.pv.trackme.location
 
 import android.location.Location
-import com.pv.trackme.constant.CommonConstant
-import com.pv.trackme.util.DataListener
-import com.pv.trackme.util.DateTimeUtil
 import java.util.*
 
-class LocationHelperImpl : LocationHelper {
+internal class LocationHelperImpl : LocationHelper {
     private var previousLocation: Location? = null
     private var currentLocation: Location? = null
     private var initialLocationListener: DataListener<Location>? = null
