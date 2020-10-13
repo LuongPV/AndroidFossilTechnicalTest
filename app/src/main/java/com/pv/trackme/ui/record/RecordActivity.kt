@@ -11,6 +11,7 @@ import android.location.Location
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,6 +28,7 @@ import com.pv.trackme.util.ImageUtil
 import com.pv.trackme.util.ViewUtil
 import kotlinx.android.synthetic.main.activity_record.*
 import kotlinx.android.synthetic.main.layout_session_info.*
+import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
@@ -57,14 +59,16 @@ class RecordActivity : BaseActivity(), RecordAction {
         }
         viewModel.initLocation.observe(this) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.toLatLng(), 15f))
-            val bitmapFromVectorDrawable =
-                ImageUtil.getBitmapFromVectorDrawable(this, R.drawable.ic_departure)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(it.toLatLng())
-                    .title(getString(R.string.txt_marker_departure))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapFromVectorDrawable))
-            )
+            lifecycleScope.launch {
+                val bitmapFromVectorDrawable =
+                    ImageUtil.getBitmapFromVectorDrawable(this@RecordActivity, R.drawable.ic_departure)
+                googleMap.addMarker(
+                    MarkerOptions()
+                        .position(it.toLatLng())
+                        .title(getString(R.string.txt_marker_departure))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmapFromVectorDrawable))
+                )
+            }
         }
         viewModel.updatedLocation.observe(this) {
             val previousLocation = viewModel.getPreviousLocation()!!
@@ -77,14 +81,16 @@ class RecordActivity : BaseActivity(), RecordAction {
             if (currentLocationMarker != null) {
                 currentLocationMarker!!.position = it.toLatLng()
             } else {
-                val bitmapFromVectorDrawable =
-                    ImageUtil.getBitmapFromVectorDrawable(this, R.drawable.ic_current_location)
-                currentLocationMarker = googleMap.addMarker(
-                    MarkerOptions()
-                        .position(it.toLatLng())
-                        .title(getString(R.string.txt_current_location))
-                        .icon(BitmapDescriptorFactory.fromBitmap(bitmapFromVectorDrawable))
-                )
+                lifecycleScope.launch {
+                    val bitmapFromVectorDrawable =
+                        ImageUtil.getBitmapFromVectorDrawable(this@RecordActivity, R.drawable.ic_current_location)
+                    currentLocationMarker = googleMap.addMarker(
+                        MarkerOptions()
+                            .position(it.toLatLng())
+                            .title(getString(R.string.txt_current_location))
+                            .icon(BitmapDescriptorFactory.fromBitmap(bitmapFromVectorDrawable))
+                    )
+                }
             }
         }
         viewModel.distance.observe(this) {
