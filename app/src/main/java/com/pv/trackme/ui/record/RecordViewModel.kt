@@ -6,13 +6,14 @@ import android.location.Location
 import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pv.trackme.constant.CommonConstant
 import com.pv.trackme.data.db.AppDatabase
 import com.pv.trackme.data.db.Session
 import com.pv.trackme.domain.LocationHelper
-import com.pv.trackme.util.Coroutines
 import com.pv.trackme.util.DateTimeUtil
 import com.pv.trackme.util.ImageUtil
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -81,12 +82,12 @@ class RecordViewModel(
             dataSave.value = null
             return
         }
-        Coroutines.main {
+        viewModelScope.launch {
             loadingView.value = Any()
             val imagePath = ImageUtil.saveBitmapToFile(
                 context,
                 mapSnapshotBitmap
-            ) ?: return@main
+            ) ?: return@launch
             Timber.d("Done saving map snapshot image to storage location = $imagePath")
             val sessionDAO = database.getSessionDAO()
             sessionDAO.insert(

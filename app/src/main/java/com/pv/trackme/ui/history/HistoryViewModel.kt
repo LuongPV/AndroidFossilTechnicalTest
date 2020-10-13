@@ -3,9 +3,10 @@ package com.pv.trackme.ui.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pv.trackme.data.db.AppDatabase
 import com.pv.trackme.model.Session
-import com.pv.trackme.util.Coroutines
+import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val database: AppDatabase
@@ -15,7 +16,7 @@ class HistoryViewModel(
     }
 
     fun loadSessions(rowIndex: Int, numberOfItems: Int) {
-        Coroutines.main {
+        viewModelScope.launch {
             val sessionDAO = database.getSessionDAO()
             val sessions = sessionDAO.getSessions(rowIndex, numberOfItems).map {
                 Session(
@@ -25,7 +26,7 @@ class HistoryViewModel(
                     it.time
                 )
             }
-            this.sessions.value = sessions
+            this@HistoryViewModel.sessions.value = sessions
         }
     }
 
