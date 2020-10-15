@@ -4,8 +4,7 @@ import android.app.Application
 import android.os.Handler
 import com.pv.trackme.data.db.AppDatabase
 import com.pv.trackme.data.preference.AppPreferenceImpl
-import com.pv.trackme.domain.FusedLocationUpdateHelper
-import com.pv.trackme.domain.LocationHelperImpl
+import com.pv.trackme.location.FusedLocationUpdateHelper
 import com.pv.trackme.ui.history.HistoryViewModelFactory
 import com.pv.trackme.ui.record.RecordViewModelFactory
 import org.kodein.di.Kodein
@@ -36,7 +35,6 @@ class TrackMeApplication : Application(), KodeinAware {
                 instance()
             )
         }
-        bind() from provider { LocationHelperImpl() }
         bind() from singleton { AppDatabase(instance()) }
         bind() from provider { HistoryViewModelFactory(instance()) }
         bind() from provider { RecordViewModelFactory(instance(), instance(), instance()) }

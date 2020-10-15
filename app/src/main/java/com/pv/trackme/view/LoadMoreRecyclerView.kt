@@ -5,9 +5,8 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pv.trackme.adapter.LoadMoreAdapter
+import com.pv.trackme.common.callback.TwoDataListener
 import com.pv.trackme.constant.CommonConstant
-import com.pv.trackme.util.TwoDataListener
-import timber.log.Timber
 
 class LoadMoreRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
     companion object {

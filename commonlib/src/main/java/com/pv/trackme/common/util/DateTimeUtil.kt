@@ -1,4 +1,4 @@
-package com.pv.trackme.location
+package com.pv.trackme.common.util
 
 import java.text.SimpleDateFormat
 import java.util.*

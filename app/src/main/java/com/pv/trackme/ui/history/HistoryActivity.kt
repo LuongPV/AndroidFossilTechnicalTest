@@ -3,7 +3,6 @@ package com.pv.trackme.ui.history
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.os.Handler
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.pv.trackme.R
@@ -12,7 +11,7 @@ import com.pv.trackme.constant.CommonConstant
 import com.pv.trackme.model.Session
 import com.pv.trackme.ui.base.BaseActivity
 import com.pv.trackme.ui.record.RecordActivity
-import com.pv.trackme.util.PermissionUtil
+import com.pv.trackme.common.util.PermissionUtil
 import kotlinx.android.synthetic.main.activity_history.*
 import org.kodein.di.generic.instance
 

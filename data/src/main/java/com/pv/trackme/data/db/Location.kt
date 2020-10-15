@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-internal data class Location (
+data class Location (
     @ColumnInfo
     val sessionUid: Long,
     @ColumnInfo

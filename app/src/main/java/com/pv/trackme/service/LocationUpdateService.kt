@@ -6,25 +6,26 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.pv.trackme.BuildConfig
 import com.pv.trackme.R
 import com.pv.trackme.constant.CommonConstant.CHANNEL_ID_LOCATION_UPDATE
-import com.pv.trackme.domain.LocationUpdateHelper
+import com.pv.trackme.data.repository.SessionRepository
+import com.pv.trackme.location.LocationUpdateHelper
 import com.pv.trackme.util.NotificationUtil.createNotification
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
 
-class LocationUpdateService : Service(), KodeinAware {
+class LocationUpdateService : Service(), KodeinAware, CoroutineScope {
     companion object {
         private const val EXTRA_ACTION = "action"
         const val ACTION_START_SERVICE = "ACTION_START_SERVICE"
         const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
-        const val ACTION_BROADCAST = BuildConfig.APPLICATION_ID + ".broadcast"
-        const val EXTRA_LOCATION = "EXTRA_LOCATION"
 
         fun getStartIntent(context: Context, action: String) =
             Intent(context, LocationUpdateService::class.java).apply {
@@ -36,24 +37,32 @@ class LocationUpdateService : Service(), KodeinAware {
 
     private val locationUpdateHelper: LocationUpdateHelper by instance()
 
+    private val sessionRepository: SessionRepository by instance()
+
+    private var coroutineJob = Job()
+
+    override val coroutineContext = Dispatchers.IO + coroutineJob
+
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         when (intent.getStringExtra(EXTRA_ACTION)) {
             ACTION_START_SERVICE -> {
-                if (locationUpdateHelper.isLocationUpdating()) {
+                if (sessionRepository.isLocationUpdating()) {
                     return START_NOT_STICKY
                 }
                 Timber.d("onStartCommand ACTION_START_SERVICE")
                 initLocationUpdateForegroundService()
                 locationUpdateHelper.startLocationUpdate {
                     Timber.d("Location received = $it")
-
+                    launch {
+                        sessionRepository.saveLocation(it.latitude, it.longitude)
+                    }
                 }
-                locationUpdateHelper.setLocationUpdating(true)
+                sessionRepository.setLocationUpdating(true)
             }
             ACTION_STOP_SERVICE -> {
                 Timber.d("onStartCommand ACTION_STOP_SERVICE")
                 locationUpdateHelper.stopLocationUpdate()
-                locationUpdateHelper.setLocationUpdating(false)
+                sessionRepository.setLocationUpdating(false)
                 stopSelf()
             }
         }
@@ -78,6 +87,11 @@ class LocationUpdateService : Service(), KodeinAware {
             pendingIntent
         )
         startForeground(1, notification)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineJob.cancel()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

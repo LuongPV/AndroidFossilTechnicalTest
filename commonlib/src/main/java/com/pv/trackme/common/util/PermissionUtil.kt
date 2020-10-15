@@ -1,8 +1,8 @@
-package com.pv.trackme.util
+package com.pv.trackme.common.util
 
 import android.content.Context
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
+import com.pv.trackme.common.callback.DataListener
+import com.pv.trackme.common.callback.NoDataListener
 
 object PermissionUtil {
 
@@ -16,8 +16,9 @@ object PermissionUtil {
         if (permissions.isEmpty()) {
             throw RuntimeException("At least 1 permission required!")
         }
-        TedPermission.with(context)
-            .setPermissionListener(object : PermissionListener {
+        com.gun0912.tedpermission.TedPermission.with(context)
+            .setPermissionListener(object :
+                com.gun0912.tedpermission.PermissionListener {
                 override fun onPermissionGranted() {
                     permissionGrantListener.invoke()
                 }

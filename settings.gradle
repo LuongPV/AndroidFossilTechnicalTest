@@ -1,3 +1,4 @@
+include ':commonlib'
 include ':location'
 include ':data'
 include ':app'

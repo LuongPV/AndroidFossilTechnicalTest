@@ -1,4 +1,4 @@
-package com.pv.trackme.util
+package com.pv.trackme.common.callback
 
 typealias NoDataListener = () -> Unit
 

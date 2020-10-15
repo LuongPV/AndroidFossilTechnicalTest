@@ -8,7 +8,6 @@ import com.pv.trackme.R
 import com.pv.trackme.constant.CommonConstant
 import com.pv.trackme.model.Session
 import com.pv.trackme.util.CommonUtil.isNotAvailable
-import com.pv.trackme.util.DateTimeUtil
 import com.pv.trackme.util.ImageUtil
 import kotlinx.android.synthetic.main.item_session.view.*
 import kotlinx.android.synthetic.main.layout_session_summary_info.view.*

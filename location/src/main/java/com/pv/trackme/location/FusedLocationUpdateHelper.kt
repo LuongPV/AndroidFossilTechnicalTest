@@ -4,9 +4,10 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.*
+import com.pv.trackme.common.callback.DataListener
 import timber.log.Timber
 
-internal class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
+class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelper {
 
     companion object {
         private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
@@ -21,8 +22,6 @@ internal class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelpe
     private var locationCallback: LocationCallback? = null
 
     var locationListener: DataListener<Location>? = null
-
-    private var isLocationUpdating: Boolean = false
 
     init {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -40,12 +39,6 @@ internal class FusedLocationUpdateHelper(context: Context) : LocationUpdateHelpe
             fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
-    }
-
-    override fun isLocationUpdating() = isLocationUpdating
-
-    override fun setLocationUpdating(isLocationUpdating: Boolean) {
-        this.isLocationUpdating = isLocationUpdating
     }
 
     override fun startLocationUpdate(locationListener: DataListener<Location>) {
