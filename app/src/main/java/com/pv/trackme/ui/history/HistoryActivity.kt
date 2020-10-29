@@ -3,15 +3,18 @@ package com.pv.trackme.ui.history
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.provider.Settings
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.pv.trackme.R
 import com.pv.trackme.adapter.HistoryAdapter
+import com.pv.trackme.common.util.PermissionUtil
 import com.pv.trackme.constant.CommonConstant
+import com.pv.trackme.location.LocationUtil
 import com.pv.trackme.model.Session
 import com.pv.trackme.ui.base.BaseActivity
 import com.pv.trackme.ui.record.RecordActivity
-import com.pv.trackme.common.util.PermissionUtil
 import kotlinx.android.synthetic.main.activity_history.*
 import org.kodein.di.generic.instance
 
@@ -41,6 +44,15 @@ class HistoryActivity : BaseActivity() {
             }
         }
         btnRecord.setOnClickListener {
+            if (!LocationUtil.isLocationEnabled(this)) {
+                AlertDialog.Builder(this)
+                    .setMessage(R.string.msg_location_disabled)
+                    .setPositiveButton(R.string.btn_location_settings) { _, _ ->
+                        startActivity(Intent(Settings.ACTION_SETTINGS))
+                    }
+                    .setCancelable(true)
+                    .create().show()
+            }
             PermissionUtil.requestPermission(this, getString(R.string.msg_permission_denied), {
                 startActivityForResult(RecordActivity.getStartIntent(this), REQUEST_CODE_RECORD)
             }, {
