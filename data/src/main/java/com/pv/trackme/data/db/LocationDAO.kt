@@ -10,7 +10,10 @@ import androidx.room.Query
 interface LocationDAO {
 
     @Query("SELECT * FROM location WHERE sessionUid = :sessionUid ORDER BY uid DESC")
-    fun getLocations(sessionUid: Long): LiveData<Location>
+    fun getLocationsLiveData(sessionUid: Int): LiveData<Location>
+
+    @Query("SELECT * FROM location WHERE sessionUid = :sessionUid ORDER BY uid DESC")
+    fun getLocations(sessionUid: Int): List<Location>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(location: Location): Long

@@ -66,13 +66,13 @@ class RecordViewModel(
             return
         }
         viewModelScope.launch {
-            sessionRepository.stopSession()
             recordAction.value = RecordActionData.LOADING_START
-            val imagePath = ImageUtil.saveBitmapToFile(
+            val mapUrl = ImageUtil.saveBitmapToFile(
                 context,
                 mapSnapshotBitmap
             ) ?: return@launch
-            Timber.d("Done saving map snapshot image to storage location = $imagePath")
+            sessionRepository.stopSession(mapUrl)
+            Timber.d("Done saving map snapshot image to storage location = $mapUrl")
             recordAction.value = RecordActionData.LOADING_STOP
             recordAction.value = RecordActionData.RECORD_STOP
         }

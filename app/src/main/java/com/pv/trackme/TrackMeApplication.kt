@@ -4,6 +4,8 @@ import android.app.Application
 import android.os.Handler
 import com.pv.trackme.data.db.AppDatabase
 import com.pv.trackme.data.preference.AppPreferenceImpl
+import com.pv.trackme.data.repository.SessionRepository
+import com.pv.trackme.data.repository.SessionRepositoryImpl
 import com.pv.trackme.location.FusedLocationUpdateHelper
 import com.pv.trackme.ui.history.HistoryViewModelFactory
 import com.pv.trackme.ui.record.RecordViewModelFactory
@@ -36,8 +38,9 @@ class TrackMeApplication : Application(), KodeinAware {
             )
         }
         bind() from singleton { AppDatabase(instance()) }
+        bind() from singleton { SessionRepositoryImpl(instance(), instance()) }
         bind() from provider { HistoryViewModelFactory(instance()) }
-        bind() from provider { RecordViewModelFactory(instance(), instance(), instance()) }
+        bind() from provider { RecordViewModelFactory(instance(), instance()) }
 
     }
 

@@ -1,4 +1,4 @@
-package com.pv.trackme.ui.record
+package com.pv.trackme.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

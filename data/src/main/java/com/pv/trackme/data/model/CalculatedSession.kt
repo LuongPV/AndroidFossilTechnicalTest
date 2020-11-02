@@ -1,6 +1,6 @@
-package com.pv.trackme.model
+package com.pv.trackme.data.model
 
-data class Session (
+data class CalculatedSession (
     val mapImageUrl: String?,
     val distance: Double?,
     val speed: Double?,

@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pv.trackme.data.db.AppDatabase
+import com.pv.trackme.data.repository.SessionRepository
 import com.pv.trackme.model.Session
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
-    private val database: AppDatabase
+    private val sessionRepository: SessionRepository
 ) : ViewModel() {
     private val sessions: MutableLiveData<List<Session>> by lazy {
         MutableLiveData<List<Session>>()
@@ -17,8 +18,7 @@ class HistoryViewModel(
 
     fun loadSessions(rowIndex: Int, numberOfItems: Int) {
         viewModelScope.launch {
-            val sessionDAO = database.getSessionDAO()
-            val sessions = sessionDAO.getSessions(rowIndex, numberOfItems).map {
+            val sessions = sessionRepository.getCalculatedSessions(rowIndex, numberOfItems).map {
                 Session(
                     it.mapImageUrl,
                     it.distance,

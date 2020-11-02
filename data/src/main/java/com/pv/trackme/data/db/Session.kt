@@ -23,6 +23,9 @@ data class Session(
     @ColumnInfo
     var stopTimeString: String? = null
 
+    @ColumnInfo
+    var mapUrl: String? = null
+
     @PrimaryKey(autoGenerate = true)
     var uid: Int = 0
 

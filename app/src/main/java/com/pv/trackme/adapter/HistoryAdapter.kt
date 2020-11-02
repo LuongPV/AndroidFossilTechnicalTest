@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pv.trackme.R
+import com.pv.trackme.common.util.DateTimeUtil
 import com.pv.trackme.constant.CommonConstant
 import com.pv.trackme.model.Session
 import com.pv.trackme.util.CommonUtil.isNotAvailable
@@ -25,7 +26,9 @@ class HistoryAdapter(private val sessionList: MutableList<Session>) :
         val session = sessionList[position]
         holder.apply {
             val context = rootView.context
-            ImageUtil.loadImage(session.mapImageUrl, ivMapImage)
+            session.mapImageUrl?.let {
+                ImageUtil.loadImage(session.mapImageUrl, ivMapImage)
+            }
             tvDistance.text = context.getString(
                 if (session.distance.isNotAvailable()) R.string.txt_distance_holder else R.string.txt_distance,
                 session.distance
@@ -34,10 +37,12 @@ class HistoryAdapter(private val sessionList: MutableList<Session>) :
                 if (session.speed.isNotAvailable()) R.string.txt_avg_speed_holder else R.string.txt_avg_speed,
                 session.speed
             )
-            tvTime.text = DateTimeUtil.formatDateTime(
-                CommonConstant.TIME_PATTERN_SESSION,
-                session.time
-            )
+            session.time?.let {
+                tvTime.text = DateTimeUtil.formatDateTime(
+                    CommonConstant.TIME_PATTERN_SESSION,
+                    session.time
+                )
+            }
         }
     }
 

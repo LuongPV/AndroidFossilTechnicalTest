@@ -18,6 +18,8 @@ import com.pv.trackme.model.RecordActionData
 import com.pv.trackme.model.RecordData
 import com.pv.trackme.service.LocationUpdateService
 import com.pv.trackme.ui.base.BaseActivity
+import com.pv.trackme.ui.record.fragment.PendingFragment
+import com.pv.trackme.ui.record.fragment.RecordingFragment
 import com.pv.trackme.util.ImageUtil
 import com.pv.trackme.util.ViewUtil
 import kotlinx.android.synthetic.main.activity_record.*
@@ -29,6 +31,9 @@ import timber.log.Timber
 
 class RecordActivity : BaseActivity(), RecordAction {
     companion object {
+        private const val CAMERA_ZOOM = 15f
+        private const val WITH_POLYLINE = 7f
+
         fun getStartIntent(context: Context) = Intent(context, RecordActivity::class.java)
     }
 
@@ -58,13 +63,13 @@ class RecordActivity : BaseActivity(), RecordAction {
                 is RecordData.Time -> tvTime.text = it.data ?: getString(R.string.txt_time_holder)
                 is RecordData.Location -> {
                     lifecycleScope.launch {
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.toLatLng(), 15f))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.toLatLng(), CAMERA_ZOOM))
                         if (previousLocation == null) {
                             addMarkerToMap(it, R.drawable.ic_departure, R.string.txt_marker_departure)
                             return@launch
                         }
                         googleMap.addPolyline(
-                            PolylineOptions().add(previousLocation!!.toLatLng(), it.toLatLng()).width(7f).color(Color.RED)
+                            PolylineOptions().add(previousLocation!!.toLatLng(), it.toLatLng()).width(WITH_POLYLINE).color(Color.RED)
                         )
                         if (currentLocationMarker != null) {
                             currentLocationMarker!!.position = it.toLatLng()

@@ -3,17 +3,15 @@ package com.pv.trackme.ui.record
 import android.os.Handler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.pv.trackme.data.db.AppDatabase
-import com.pv.trackme.domain.LocationHelper
+import com.pv.trackme.data.repository.SessionRepository
 
 class RecordViewModelFactory(
-    private val database: AppDatabase,
-    private val handler: Handler,
-    private val locationHelper: LocationHelper
+    private val sessionRepository: SessionRepository,
+    private val handler: Handler
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return RecordViewModel(database, handler, locationHelper) as T
+        return RecordViewModel(sessionRepository, handler) as T
     }
 
 }
